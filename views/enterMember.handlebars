@@ -1,0 +1,98 @@
+<h1>{{results}}</h1>
+<script>
+  function deleteRow(tableID,currentRow) {
+    try {
+        var table = document.getElementById(tableID);
+        var rowCount = table.rows.length;
+        for (var i = 0; i < rowCount; i++) {
+            var row = table.rows[i];
+            /*var chkbox = row.cells[0].childNodes[0];*/
+            /*if (null != chkbox && true == chkbox.checked)*/
+            
+            if (row==currentRow.parentNode.parentNode) {
+                if (rowCount <= 1) {
+                    alert("Cannot delete all the rows.");
+                    break;
+                }
+                table.deleteRow(i);
+                rowCount--;
+                i--;
+            }
+        }
+    } catch (e) {
+        alert(e);
+    }
+  }
+</script>
+<h1>Enter/Edit Member Here</h1>
+
+<form action="/enter-member" method="post">
+  <label for="firstName">First Name:</label>
+  <input type="text" id="firstName" name="firstName" required/>
+  <label for="lastName">Last Name:</label>
+  <input type="text" id="lastName" name="lastName" required/>
+  <label for="email">E-mail:</label>
+  <input type="email" id="email" name="email"/>
+  <label for="birthdate">Birthdate:</label>
+  <input type="date" id="birthdate" name="birthdate"/>
+  <label for="enrollDate">Enrollment Date:</label>
+  <input type="date" id="enrollDate" name="enrollDate"/>
+  <label for="enroller">Enrolled By:</label>
+  <input type="number" id="enroller" name="enroller"/>
+  <input type="submit" value="Add Item" />
+</form>
+<br>
+
+{{!-- <form action="/edit-member" method="post">
+{{#each my_data}}
+  <label for="firstName">First Name:</label>
+  <input type="text" id="firstName" name="firstName" value="{{this.fname}}" required/>
+  <label for="lastName">Last Name:</label>
+  <input type="text" id="lastName" name="lastName" value="{{this.lname}}" required/>
+  <label for="email">E-mail:</label>
+  <input type="email" id="email" name="email" value="{{this.email}}"/>
+  <label for="birthdate">Birthdate:</label>
+  <input type="date" id="birthdate" name="birthdate" value="{{this.bdate}}"/>
+  <label for="enrollDate">Enrollment Date:</label>
+  <input type="date" id="enrollDate" name="enrollDate" value="{{this.edate}}"/>
+  <label for="enroller">Enrolled By:</label>
+  <input type="number" id="enroller" name="enroller" value="{{this.emp}}"/>
+  <input type="hidden" name="id" value="{{this.id}}" />
+  <input type="submit" value="Save" />
+  {{/each}}
+</form>
+<br> --}}
+<table id="dataTable" style="width: 50%; text-align:center">
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>E-mail</th>
+    <th>Birthdate</th>
+    <th>Enrollment Date</th>
+    <th>Enroller</th>
+  </tr>
+{{!-- {{#if member}} --}}
+{{#each my_data}}
+  <tr>  
+    <td>{{this.firstName}}</td>
+    <td>{{this.lastName}}</td>
+    <td>{{this.email}}</td>
+    <td>{{this.birthdate}}</td>
+    <td>{{this.enrollDate}}</td>
+    <td>{{this.enroller}}</td>
+    <td>
+      <form action="/enter-member" method="POST">
+      <input type="hidden" name="memberID" value="{{this.memberID}}" />
+      <input type="submit" value="delete" onclick="deleteRow('dataTable',this)" />
+      </form>
+    </td>
+    <td>
+      <form action="/edit-member" method="POST">
+      <input type="hidden" name="memberID" value="{{this.memberID}}" />
+      <input type="submit" value="edit" />
+      </form>
+    </td><br>    
+  </tr>
+{{/each}}
+{{!-- {{/if}} --}}
+</table>

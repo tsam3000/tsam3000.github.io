@@ -1,0 +1,12 @@
+<h1>Enter/Edit Employee Here</h1>
+
+<form action="/enter-employee" method="post">
+{{#each my_data}}
+  <label for="first_name">First Name:</label>
+  <input type="text" id="first_name" name="first_name" value="{{this.fname}}" required/>
+  <label for="last_name">Last Name:</label>
+  <input type="text" id="last_name" name="last_name" value="{{this.lname}}" required/>
+  <input type="hidden" name="id" value="{{this.id}}" />
+  <input type="submit" value="Save" />
+  {{/each}}
+</form>
